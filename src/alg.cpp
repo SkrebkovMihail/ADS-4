@@ -12,6 +12,7 @@ int countPairs1(int* arr, int len, int value) {
         return 0;
     return count;
 }
+
 int countPairs2(int* arr, int len, int value) {
     int count = 0;
     int maxlen = len - 1;
