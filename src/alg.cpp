@@ -1,54 +1,65 @@
 // Copyright 2021 NNTU-CS
-#include <iostream>
-using namespace std;
-
-int countPairs1(int *arr, int len, int value) {
+int countPairs1(int* arr, int len, int value) {
     int count = 0;
-    for (int i = 0; i < len - 1; i++) {
+    for (int i = 0; i < len; i++) {
         for (int j = i + 1; j < len; j++) {
             if (arr[i] + arr[j] == value) {
                 count++;
-                while (j < len - 1 && arr[j] == arr[j + 1]) {
-                    j++;
+            }
+        }
+    }
+    if (count == 0)
+        return 0;
+    return count;
+}
+int countPairs2(int* arr, int len, int value) {
+    int count = 0;
+    int maxlen = len - 1;
+    while (arr[maxlen] > value) {
+        maxlen--;
+    }
+    for (int left = 0; left < maxlen; left++) {
+        for (int right = maxlen; left < right; right--) {
+            if (arr[left] + arr[right] == value) {
+                count++;
+            }
+        }
+    }
+    if (count == 0)
+        if (count == 0)
+            return 0;
+    return count;
+}
+
+int countPairs3(int* arr, int len, int value) {
+    int count = 0;
+    for (int i = 0; i < len; ++i) {
+        int h = len - 1;
+        int lenght = i + 1;
+        int secEl = value - arr[i];
+        while (lenght <= h) {
+            int middle = (lenght + h) / 2;
+            if (arr[middle] == secEl) {
+                count++;
+                int mmid = middle - 1;
+                while ((mmid > i) && (arr[mmid] == arr[middle])) {
+                    count++;
+                    mmid--;
                 }
+                int bmid = middle + 1;
+                while ((i < bmid) && (arr[bmid] == arr[middle])) {
+                    count++;
+                    bmid++;
+                }
+                break;
+            } else if (arr[middle] > secEl) {
+                h = middle - 1;
+            } else {
+                lenght = middle + 1;
             }
         }
     }
-    return count;
-}
-
-int countPairs2(int *arr, int len, int value) {
-    int count = 0;
-    int left = 0, right = len - 1;
-    while (left < right) {
-        if (arr[left] + arr[right] == value) {
-            count++;
-            while (left < right && arr[left] == arr[left + 1]) {
-                left++;
-            }
-            while (left < right && arr[right] == arr[right - 1]) {
-                right--;
-            }
-            left++;
-            right--;
-        } else if (arr[left] + arr[right] < value) {
-            left++;
-        } else {
-            right--;
-        }
-    }
-    return count;
-}
-
-int countPairs3(int *arr, int len, int value) {
-    int count = 0;
-    int *countArr = new int[value + 1]();
-    for (int i = 0; i < len; i++) {
-        if (value - arr[i] >= 0 && countArr[value - arr[i]] > 0) {
-            count += countArr[value - arr[i]];
-        }
-        countArr[arr[i]]++;
-    }
-    delete[] countArr;
-    return count;
+    if (count)
+        return count;
+    return 0;
 }
